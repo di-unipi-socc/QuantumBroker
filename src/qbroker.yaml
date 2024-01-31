@@ -1,0 +1,1024 @@
+openapi: 3.0.1
+info:
+  title: Quantum Broker Service 
+  description: Quantum Broker Service REST APIs
+  version: "0.1"
+servers:
+- url: /
+tags:
+- name: Quantum Broker
+  description: Compute and perform dispatches of quantum circuits customised to the user's requirements
+- name: Dispatcher
+  description: Dispatch quantum circuits to different providers and backends
+- name: Compilation Manager
+  description: Manage the compilation of quantum circuits
+- name: Translator
+  description: Translate quantum circuits from/to different languages
+- name: Virtual Provider
+  description: An uniform and common interface to different providers and backends
+- name: Quantum Repository
+  description: Manage the quantum circuits non-uniform repository
+paths:
+    /dispatch/{dispatch_id}:
+      get:
+        tags:
+          - Quantum Broker
+          - Dispatcher
+        summary: Get an existing dispatch
+        operationId: QBrokerService.get_dispatch
+        parameters:
+          - name: dispatch_id
+            in: path
+            required: true
+            description: The dispatch id
+            schema:
+              type: string
+              format: uuid
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Dispatch'
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: string
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  type: string
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  type: string
+      post:
+        tags:
+          - Dispatcher
+        summary: Perform an existing dispatch
+        operationId: QBrokerService.perform_existing_dispatch
+        parameters:
+          - name: dispatch_id
+            in: path
+            required: true
+            description: The dispatch id
+            schema:
+              type: string
+              format: uuid  
+        responses:
+          '201':
+            description: Created
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/PartialDistribution'
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: string
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  type: string
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  type: string
+    /dispatch:
+      put:
+        tags:
+          - Quantum Broker
+        summary: Compute the best dispatch for a given scenario
+        operationId: QBrokerService.compute_dispatch
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DispatchRequest'
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Dispatch'
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: string
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  type: string
+      post:
+        tags:
+          - Quantum Broker
+        summary: Perform the best dispatch for a given scenario
+        operationId: QBrokerService.perform_dispatch
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DispatchRequest'      
+        responses:
+          '201':
+            description: Created
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/PartialDistribution'
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: string
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  type: string
+      patch:
+        tags:
+          - Dispatcher
+        summary: Perform a given dispatch
+        operationId: QBrokerService.perform_user_dispatch
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dispatch'   
+        responses:
+          '201':
+            description: Created
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/PartialDistribution'
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: string
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  type: string
+
+    /partial_distribution/{partial_distribution_id}:
+      get:
+        tags:
+          - Quantum Broker
+          - Dispatcher
+        summary: Get the partial distribution for a performed dispatch
+        operationId: QBrokerService.get_partial_distribution
+        parameters:
+          - name: partial_distribution_id
+            in: path
+            required: true
+            description: The partial distribution id
+            schema:
+              type: string
+              format: uuid
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/PartialDistribution'
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: string
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  type: string
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  type: string
+      patch:
+        tags:
+          - Dispatcher
+        summary: Process the partial distribution for a performed dispatch
+        operationId: QBrokerService.process_existing_partial_distribution
+        parameters:
+          - name: partial_distribution_id
+            in: path
+            required: true
+            description: The partial distribution id
+            schema:
+              type: string
+              format: uuid
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/FullDistribution'
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: string
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  type: string
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  type: string
+    /partial_distribution:
+      patch:
+        tags:
+          - Dispatcher
+        summary: Process the partial distribution for a given dispatch
+        operationId: QBrokerService.process_user_partial_distribution
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartialDistribution' 
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/FullDistribution'
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: string
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  type: string
+    /compiler:
+      post:
+        tags:
+          - Compilation Manager
+        summary: Compile a quantum circuit(s)
+        operationId: QBrokerService.compile
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Circuits'
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Circuits'
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: string
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  type: string
+    /translator:
+      post:
+        tags:
+          - Translator
+        summary: Translate a quantum circuit
+        operationId: QBrokerService.translate
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  circuit:
+                    $ref: '#/components/schemas/Circuit'
+                  from_language:
+                    type: string
+                    nullable: true
+                  to_language:
+                    type: string
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    circuit:
+                      $ref: '#/components/schemas/Circuit'
+                    from_language:
+                      type: string
+                      nullable: true
+                    to_language:
+                      type: string
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: string
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  type: string
+    /backends:
+      get:
+        tags:
+          - Virtual Provider
+        summary: Get the backend(s) 
+        operationId: QBrokerService.get_backends
+        parameters:
+          - name: provider
+            in: query
+            required: true
+            description: The provider name
+            schema:
+              type: string
+          - name: backend
+            in: query
+            required: false
+            description: The backend name
+            schema:
+              type: string
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: string
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  type: string
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  type: string
+    /algorithms:
+      get:
+        tags:
+          - Quantum Repository
+        summary: Get the algorithms metadata
+        operationId: QBrokerService.get_algorithms
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: string
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  type: string
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  type: string
+      post:
+        tags:
+          - Quantum Repository
+        summary: Add an algorithm
+        operationId: QBrokerService.add_algorithm
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  algorithm_id:
+                    type: string
+                    description: The algorithm id
+                  description:
+                    type: string
+                    description: The algorithm description
+                    nullable: true
+                  schema:
+                    type: object
+                    description: The algorithm schema
+        responses:
+          '201':
+            description: Created
+            content:
+              application/json:
+                schema:
+                  type: object
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: string
+          '409':
+            description: Conflict
+            content:
+              application/json:
+                schema:
+                  type: string
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  type: string
+    /algorithms/{algorithm_id}:
+      get:
+        tags:
+          - Quantum Repository
+        summary: Get the algorithm metadata
+        operationId: QBrokerService.get_algorithm
+        parameters:
+          - name: algorithm_id
+            in: path
+            required: true
+            description: The algorithm id
+            schema:
+              type: string
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: string
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  type: string
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  type: string
+      put:
+        tags:
+          - Quantum Repository
+        summary: Run the algorithm
+        operationId: QBrokerService.run_algorithm
+        parameters:
+          - name: algorithm_id
+            in: path
+            required: true
+            description: The algorithm id
+            schema:
+              type: string
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: string
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  type: string
+          '409':
+            description: Conflict
+            content:
+              application/json:
+                schema:
+                  type: string
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  type: string
+      delete:
+        tags:
+          - Quantum Repository
+        summary: Delete the algorithm
+        operationId: QBrokerService.delete_algorithm
+        parameters:
+          - name: algorithm_id
+            in: path
+            required: true
+            description: The algorithm id
+            schema:
+              type: string
+        responses:
+          '204':
+            description: No Content
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: string
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  type: string  
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  type: string
+    /algorithms/{algorithm_id}/circuits:
+      get:
+        tags:
+          - Quantum Repository
+        summary: Get the circuits metadata
+        operationId: QBrokerService.get_circuits
+        parameters:
+          - name: algorithm_id
+            in: path
+            required: true
+            description: The algorithm id
+            schema:
+              type: string
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: string
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  type: string
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  type: string
+      post:
+        tags:
+          - Quantum Repository
+        summary: Add a circuit
+        operationId: QBrokerService.add_circuit
+        parameters:
+          - name: algorithm_id
+            in: path
+            required: true
+            description: The algorithm id
+            schema:
+              type: string
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  circuit_id:
+                    type: string
+                    description: The circuit id
+                  circuit:
+                    type: string
+                    description: The circuit code
+                  schema:
+                    type: object
+                    description: The circuit schema
+                  function:
+                    type: string
+                    description: The circuit function
+                    nullable: true
+                  priority:
+                    type: integer
+                    description: The circuit priority
+                    nullable: true
+                  description:
+                    type: string
+                    description: The circuit description
+                    nullable: true
+        responses:
+          '201':
+            description: Created
+            content:
+              application/json:
+                schema:
+                  type: object
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: string
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  type: string
+          '409':
+            description: Conflict
+            content:
+              application/json:
+                schema:
+                  type: string
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  type: string
+    /algorithms/{algorithm_id}/circuits/{circuit_id}:
+      get:
+        tags:
+          - Quantum Repository
+        summary: Get the circuit
+        operationId: QBrokerService.get_circuit
+        parameters:
+          - name: algorithm_id
+            in: path
+            required: true
+            description: The algorithm id
+            schema:
+              type: string
+          - name: circuit_id
+            in: path
+            required: true
+            description: The circuit id
+            schema:
+              type: string
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: string
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  type: string
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  type: string
+      put:
+        tags:
+          - Quantum Repository
+        summary: Run the circuit
+        operationId: QBrokerService.run_circuit
+        parameters:
+          - name: algorithm_id
+            in: path
+            required: true
+            description: The algorithm id
+            schema:
+              type: string
+          - name: circuit_id
+            in: path
+            required: true
+            description: The circuit id
+            schema:
+              type: string
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: string
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  type: string
+          '409':
+            description: Conflict
+            content:
+              application/json:
+                schema:
+                  type: string
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  type: string
+      delete:
+        tags:
+          - Quantum Repository
+        summary: Delete the circuit
+        operationId: QBrokerService.delete_circuit
+        parameters:
+          - name: algorithm_id
+            in: path
+            required: true
+            description: The algorithm id
+            schema:
+              type: string
+          - name: circuit_id
+            in: path
+            required: true
+            description: The circuit id
+            schema:
+              type: string
+        responses:
+          '204':
+            description: No Content
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: string
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  type: string  
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  type: string
+
+components:
+  schemas:
+    DispatchRequest:
+      type: object
+      properties:
+        circuit:
+          $ref: '#/components/schemas/Circuit'
+        requirements:
+          $ref: '#/components/schemas/Requirements'
+      example:
+        circuit: circuit
+        requirements:
+          constants:
+            total_shots: 10
+            granularity: 1
+            max_cost: 999
+            max_time: 500
+          objectives:
+          - "-total_cost"
+          - used_backends
+          - "-dispatch_size"
+          - "-waiting_time"
+          constraints:
+            "@":
+              only_simulators: {}
+    Circuit:
+      oneOf:
+        - type: object
+        - type: string
+    Circuits:
+      type: object
+      properties:
+        circuits:
+          oneOf:
+            - type: array
+              items:
+                $ref: '#/components/schemas/Circuit'
+            - $ref: '#/components/schemas/Circuit'
+    Requirements:
+      type: object
+      properties:
+        constants:
+          type: object
+          additionalProperties: true
+        objectives:
+          type: array
+          items:
+            type: string
+        constraints:
+          type: object
+          additionalProperties: true
+        metrics:
+          type: object
+          additionalProperties: true
+      example:
+        constants:
+          total_shots: 10
+          granularity: 1
+          max_cost: 999
+          max_time: 500
+        objectives:
+        - "-total_cost"
+        - used_backends
+        - "-dispatch_size"
+        - "-waiting_time"
+        constraints:
+          "@":
+            only_simulators: {}
+    Dispatch:
+      type: object
+      properties:
+        dispatch_id:
+          type: string
+          format: uuid
+          description: The dispatch id
+      additionalProperties: true
+      example: 
+        dispatch_id: 123e4567-e89b-12d3-a456-426655440000
+        provider1:
+          backend1: 
+            - circuit1
+            -
+              - 100
+          backend2: 
+            - 
+              - circuit2
+              - circuit3
+            -
+              - 100
+              - 200
+        provider2:
+          backend3: 
+            - 
+              - circuit4
+              - circuit5
+            -
+              - 100
+        provider3:
+          backend4: 
+            - 
+              - circuit6
+            - 100
+          backend5: 
+            - 
+              - circuit7
+              - circuit8
+            - 200
+    PartialDistribution:
+      type: object
+      properties:
+        completed:
+          type: boolean
+          description: Whether all the circuits have been executed and the results have been collected
+        partial_distribution_id:
+          type: string
+          format: uuid
+          description: The partial distribution id
+        dispatch_id:
+          type: string
+          format: uuid
+          description: The dispatch id
+      additionalProperties: true
+      example:
+        dispatch_id: 123e4567-e89b-12d3-a456-426655440000
+        partial_distribution_id: 123e4567-e89b-12d3-a456-426655440001
+        comleted: false
+        provider1:
+          backend1: 
+            - output1: 10
+              output2: 90
+          backend2: 
+            - ResultHandle1
+        provider2:
+          backend3: 
+            - output3: 60
+              output4: 40
+            - ResultHandle2
+        provider3:
+          backend4: 
+            - output5: 50
+              output6: 50
+            - output7: 70
+              output8: 30
+          backend5: 
+            - ResultHandle3
+            - ResultHandle4
+    ResultHandle:
+      type: object
+    FullDistribution:
+      type: object
+      example:
+        - output1: 50
+          output2: 50
+        - output3: 70
+          output4: 30
+
