@@ -1,0 +1,109 @@
+{
+    "name": "ibm_perth",
+    "status": "online",
+    "last update": null,
+    "specs":{
+    "cloud": "IBM",
+    "producer": "IBM",
+    "location": null,
+    "technology": "superconductor",
+    "accepted": ["OpenQASM3", "OpenQASM2"],
+    "architecture": {
+    "processor": "Falcon r5.11H",
+    "qubits": 7,
+    "kWh": 2,
+    "gateset": ["CX","ID","RZ","SX","X"]
+    }
+    },
+    "waiting":{
+    "pending jobs": 89,
+    "time per job": null,
+    "queue time": null
+    },
+    "availability":{
+    "currently available": true,
+    "next availability": null,
+    "last availability": null,
+    "last unavailability": null
+    },
+    "thresholds":{
+    "max shots": 20000,
+    "max qubits per pulse gate": 3,
+    "max channels per pulse gate": 9
+    },
+    "cost":{
+    "free": true
+    },
+    "metrics":{
+    "fully connected": false,
+    "waiting time": 0,
+    "gates per swap": null,
+    "max execution time": 10936000,
+    "max supported depth":{
+        "@":{
+            "/":["metrics.max execution time", "metrics.times.gate 2q.avg"]
+        }
+    },
+    "times":{
+    "t1":{
+    "min": 3317000,
+    "max": 21685000,
+    "avg": 17411000,
+    "unit": "ns*e-2"
+    },
+    "t2":{
+    "min": 4319000,
+    "max": 25965000,
+    "avg": 10936000,
+    "unit": "ns*e-2"
+    },
+    "readout":{
+    "min": 67555,
+    "max": 67555,
+    "avg": 67555,
+    "unit": "ns*e-2"
+    },
+    "gate 1q":{
+    "min": 28444,
+    "max": 64000,
+    "avg": 39822,
+    "unit": "ns*e-2"
+    },
+    "gate 2q":{
+    "min": 28444,
+    "max": 64000,
+    "avg": 39822,
+    "unit": "ns*e-2"
+    }
+    },
+    "errors":{
+    "readout":{
+    "min": 6.900,
+    "max": 27.10,
+    "avg": 19.20,
+    "unit": "e-3"
+    },
+    "gate 2q":{
+    "min": 2.600,
+    "max": 4.421,
+    "avg": 3.213,
+    "unit": "e-4"
+    },
+    "gate 1q":{
+    "min": 8.602,
+    "max": 15.99,
+    "avg": 10.93,
+    "unit": "e-3"
+    }
+    },
+    "on circuit":{
+    "execution time": {
+        "@":{
+            "*":["metrics.times.gate 2q.avg", "#req_depth"]
+        }
+    },
+    "fidelity": 0,
+    "cost": 0
+    }
+    }
+    }

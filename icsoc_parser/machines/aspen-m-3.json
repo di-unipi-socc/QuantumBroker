@@ -1,0 +1,82 @@
+{
+    "name": "ASPEN_M_3",
+    "status": "online",
+    "last update": null,
+    "specs":{
+    "cloud": "AWS",
+    "producer": "Rigetti",
+    "location": "us-west-1",
+    "technology": "simulator",
+    "accepted": [],
+    "architecture": {
+    "processor": null,
+    "qubits": 79,
+    "kWh": 5,
+    "gateset": ["RX", "RZ", "CPHASE", "CZ", "XY"]
+    }
+    },
+    "waiting":{
+    "pending jobs": null,
+    "time per job": null,
+    "queue time": null
+    },
+    "availability":{
+    "currently available": true,
+    "next availability": null,
+    "last availability": null,
+    "last unavailability": null
+    },
+    "thresholds":{
+    "max shots": null,
+    "max qubits per pulse gate": null,
+    "max channels per pulse gate": null
+    },
+    "cost":{
+    "free": false,
+    "per task": 30000,
+    "per shot": 35, 
+    "currency": "USD*e-5"
+    },
+    "metrics":{
+    "fully connected": false,
+    "waiting time": 0,
+    "gates per swap": null,
+    "times":{
+    "t1":{
+    "avg": 2210000,
+    "unit": "ns*e-2"
+    },
+    "t2":{
+    "avg": 2420000,
+    "unit": "ns*e-2"
+    }
+    },
+    "errors":{
+    "readout":{
+    "avg": 4.2,
+    "unit": "%"
+    },
+    "gate 2q":{
+    "avg": 8.5,
+    "unit": "%"
+    },
+    "gate 1q":{
+    "avg": 0.4,
+    "unit": "%"
+    }
+    },
+    "max execution time": 2210000,
+    "max supported depth":null,
+    "on circuit":{
+    "fidelity": 0,
+    "cost": { 
+        "@":{"/":[{
+                "+":[
+                    "cost.per task",
+                    {"*":["cost.per shot", "dispatch"]}
+                ]}, 100000]
+        }
+    }
+    }
+    }
+}

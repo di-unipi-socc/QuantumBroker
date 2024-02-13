@@ -1,0 +1,83 @@
+{
+    "@time_limit": 300,
+    "circuit":{
+        "depth": 200,
+        "qubits": 5
+    },
+    "shots": 200000,
+    "granularity": 10000,
+    "constraints": [
+        {
+            "target": "min_shots",
+            "value": "500",
+            "op": "gt"
+        },
+        {
+            "target": "all_used_technologies",
+            "value": "metric.all_technologies",
+            "op": "eq"
+        }
+    ],
+    "metrics": [
+        {
+            "key": "min_shots",
+            "value": {
+                "max": [
+                    "S"
+                ],
+                "such_as":[
+                    "compatible(M)",
+                    "dispatch(M,S)",
+                    "shots(S)",
+                    "S > 0"
+                ]
+            }
+        },
+        {
+            "key": "all_technologies",
+            "value": {
+                "count": [
+                    "T"
+                ],
+                "such_as":[
+                    "machine(M)",
+                    "technology(M,T)"
+                ]
+            }
+        },
+        {
+            "key": "used_machines",
+            "value": {
+                "count": [
+                    "M"
+                ],
+                "such_as":[
+                    "compatible(M)",
+                    "dispatch(M,S)",
+                    "shots(S)",
+                    "S > 0"
+                ]
+            }
+        },
+        {
+            "key": "all_used_technologies",
+            "value": {
+                "count": [
+                    "T"
+                ],
+                "such_as":[
+                    "compatible(M)",
+                    "dispatch(M,S)",
+                    "shots(S)",
+                    "S > 0",
+                    "technology(M,T)"
+                ]
+            }
+        }
+    ],
+    "optimise": [
+        "total_cost",
+        "-used_machines",
+        "total_execution_time"
+    ]
+}

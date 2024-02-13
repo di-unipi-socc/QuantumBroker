@@ -1,0 +1,99 @@
+{
+    "@time_limit": 300,
+    "circuit":{
+        "depth": 200,
+        "qubits": 5
+    },
+    "shots": 200000,
+    "granularity": 10000,
+    "constraints": [
+        {
+            "target": "machine.technology",
+            "value": "simulator",
+            "op": "diff"
+        },
+        {
+            "target": "machine.technology",
+            "default": false
+        }
+    ],
+    "metrics": [
+        {
+            "key": "total_energy_cost",
+            "value": {
+                "sum": [
+                    "E",
+                    "M"
+                ],
+                "such_as":[
+                    "compatible(M)",
+                    "dispatch(M,S)",
+                    "shots(S)",
+                    "S > 0",
+                    "energy_cost(M, E)"
+                ]
+            }
+        },
+        {
+            "key": "machine.energy_cost",
+            "value": [
+                "dispatch(M,S)",
+                "shots(S)",
+                "technology(M, superconductor)",
+                "gates1q(G1)",
+                "gates2q(G2)",
+                "gates1q_speed(G1_speed)",
+                "gates2q_speed(G2_speed)",
+                "Gates = G1 + G2",
+                "RatioG1 = G1/Gates",
+                "RatioG2 = G2/Gates",
+                "kWh(M, K)",
+                "Energy_cost = S*(G1_speed*req_depth*RatioG1 + G2_speed*req_depth*RatioG2)*K"
+            ]
+        },
+        {
+            "key": "machine.energy_cost",
+            "value": [
+                "dispatch(M,S)",
+                "shots(S)",
+                "technology(M, trapped_ions)",
+                "gates1q(G1)",
+                "gates2q(G2)",
+                "gates1q_speed(G1_speed)",
+                "gates2q_speed(G2_speed)",
+                "kWh(M, K)",
+                "Energy_cost = S*(G1_speed*G1 + G2_speed*G2)*K"
+            ]
+        },
+        {
+            "key": "machine.energy_cost",
+            "value": [
+                "dispatch(M,S)",
+                "shots(S)",
+                "technology(M, neutral_atoms)",
+                "gates1q(G1)",
+                "gates2q(G2)",
+                "kWh(M, K)",
+                "Energy_cost = ((G1 + G2)*S)/1000 * K"
+            ]
+        },
+        {
+            "key": "used_machines",
+            "value": {
+                "count": [
+                    "M"
+                ],
+                "such_as":[
+                    "compatible(M)",
+                    "dispatch(M,S)",
+                    "shots(S)",
+                    "S > 0"
+                ]
+            }
+        }
+    ],
+    "optimise": [
+        "-used_machines",
+        "total_energy_cost"
+    ]
+}

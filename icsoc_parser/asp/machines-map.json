@@ -1,0 +1,17 @@
+{
+    "key": "name",
+    "status": "status",
+    "technology": "specs.technology",
+    "languages": "specs.accepted",
+    "qubits": "specs.architecture.qubits",
+    "kWh": "specs.architecture.kWh",
+    "max_shots": "thresholds.max shots",
+    "max_depth": "metrics.max supported depth",
+    "expected_waiting_time": "metrics.waiting time",
+    "expected_execution_time": "metrics.on circuit.execution time",
+    "expected_fidelity": "metrics.on circuit.fidelity",
+    "expected_cost": "metrics.on circuit.cost",
+    "gates1q_speed": "metrics.times.gate 1q.avg",
+    "gates2q_speed": "metrics.times.gate 2q.avg"
+
+}

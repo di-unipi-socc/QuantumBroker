@@ -1,0 +1,20 @@
+{
+    "shots": 20,
+    "max_cost": 10000000,
+    "priority": 100,
+
+
+    "constraints": [],
+    "metrics": [
+        {
+            "key": "priority_metric",
+            "value": {
+                "+":[
+                    {"*":["priority", "total_time"]},
+                    {"*":[{"-":[100,"priority"]}, "total_cost"]}
+                ]
+            }
+        }
+    ],
+    "optimise": ["priority_metric","-used_computers","shots_difference"]
+}

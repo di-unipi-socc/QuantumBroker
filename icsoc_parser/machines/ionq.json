@@ -1,0 +1,107 @@
+{
+"name": "IonQ",
+"status": "online",
+"last update": null,
+"specs":{
+"cloud": "AWS",
+"producer": "IonQ",
+"location": "us-east-1",
+"technology": "trapped ions",
+"accepted": [],
+"architecture": {
+"processor": null,
+"qubits": 11,
+"kWh": 3,
+"gateset": ["GPI", "GPI2", "GZ", "M-S"]
+}
+},
+"waiting":{
+"pending jobs": null,
+"time per job": null,
+"queue time": null
+},
+"availability":{
+"currently available": true,
+"next availability": null,
+"last availability": null,
+"last unavailability": null
+},
+"thresholds":{
+"max shots": null,
+"max qubits per pulse gate": null,
+"max channels per pulse gate": null
+},
+"cost":{
+"free": false,
+"per task": 30000,
+"per shot": 1000,
+"currency": "USD*e-5"
+},
+"metrics":{
+"fully connected": true,
+"waiting time": 0,
+"gates per swap": null,
+"times":{
+"t1":{
+"avg": 1000000000,
+"unit": "ns*e-2"
+},
+"t2":{
+"avg": 20000,
+"unit": "ns*e-2"
+},
+"readout":{
+"avg": 13,
+"unit": "ns*e-2"
+},
+"gate 2q":{
+"avg": 20,
+"unit": "ns*e-2"
+},
+"gate 1q":{
+"avg": 1,
+"unit": "ns*e-2"
+},
+"reset":{
+"avg": 2,
+"unit": "ns*e-2"
+}
+},
+"errors":{
+"readout":{
+"avg": 0.00248,
+"unit": "e+0"
+},
+"gate 2q":{
+"avg": 0.0364,
+"unit": "e+0"
+},
+"gate 1q":{
+"avg": 0.0019,
+"unit": "e+0"
+}
+},
+"max execution time": 20000,
+"max supported depth":{
+    "@":{
+        "/":["metrics.max execution time", "metrics.times.gate 2q.avg"]
+    }
+},
+"on circuit":{
+"execution time": {
+    "@":{
+        "*":["metrics.times.gate 2q.avg", "#req_depth"]
+    }
+},
+"fidelity": 0,
+"cost": {
+    "@":{"/":[{
+        "+":[
+            "cost.per task",
+            {"*":["cost.per shot", "dispatch"]}
+    ]}, 100000]
+    }
+}
+}
+}
+}

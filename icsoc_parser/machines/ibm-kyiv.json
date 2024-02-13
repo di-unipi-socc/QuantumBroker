@@ -1,0 +1,114 @@
+{
+    "name": "ibm_kyiv",
+    "status": "online",
+    "last update": null,
+    "specs":{
+    "cloud": "IBM",
+    "producer": "IBM",
+    "location": null,
+    "technology": "superconductor",
+    "accepted": ["OpenQASM2"],
+    "architecture": {
+    "processor": "Eagle r3",
+    "qubits": 127,
+    "kWh": 1,
+    "gateset": ["CX","ID","RZ","SX","X"]
+    }
+    },
+    "waiting":{
+    "pending jobs": 0,
+    "time per job": null,
+    "queue time": null
+    },
+    "availability":{
+    "currently available": true,
+    "next availability": null,
+    "last availability": null,
+    "last unavailability": null
+    },
+    "thresholds":{
+    "max shots": null,
+    "max qubits per pulse gate": null,
+    "max channels per pulse gate": null
+    },
+    "cost":{
+    "free": false,
+    "per time unit": 160000,
+    "currency": "USD*e-5",
+    "time unit": "s"
+    },
+    "metrics":{
+    "fully connected": false,
+    "waiting time": 0,
+    "gates per swap": null,
+    "times":{
+    "t1":{
+    "min": 1424000,
+    "max": 55031000,
+    "avg": 27266000,
+    "unit": "ns*e-2"
+    },
+    "t2":{
+    "min": 2165000,
+    "max": 45019000,
+    "avg": 13014000,
+    "unit": "ns*e-2"
+    },
+    "readout":{
+    "min": 124444,
+    "max": 124444,
+    "avg": 124444,
+    "unit": "ns*e-2"
+    },
+    "gate 1q":{
+    "min": 6.1155,
+    "max": 66133,
+    "avg": 63644,
+    "unit": "ns*e-2"
+    },
+    "gate 2q":{
+    "min": 6.1155,
+    "max": 66133,
+    "avg": 63644,
+    "unit": "ns*e-2"
+    }
+    },
+    "errors":{
+    "readout":{
+    "min": 9,
+    "max": 2870,
+    "avg": 12,
+    "unit": "e-4"
+    },
+    "gate 2q":{
+    "min": 1,
+    "max": 1,
+    "avg": 1,
+    "unit": "e+0"
+    },
+    "gate 1q":{
+    "min": 8.910,
+    "max": 15.99,
+    "avg": 267.5,
+    "unit": "e-5"
+    }
+    },
+    "max execution time": 13014000,
+    "max supported depth":{
+        "@":{
+            "/":["metrics.max execution time", "metrics.times.gate 2q.avg"]
+        }
+    },
+    "on circuit":{
+    "execution time": {
+        "@":{
+            "*":["metrics.times.gate 2q.avg", "#req_depth"]
+        }
+    },
+    "cost": {
+        "@":
+        {"/":[{"*":["cost.per time unit", {"/":[{"*":["metrics.on circuit.execution time","dispatch"]},100000000000]}]}, 100000]}
+    }
+    }
+    }
+    }

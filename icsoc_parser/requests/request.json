@@ -1,0 +1,78 @@
+{
+    "@time_limit": 300,
+    "circuit":{
+        "depth": 200,
+        "qubits": 5
+    },
+    "shots": 200000,
+    "granularity": 10000,
+    "constraints": [
+        {
+            "target": "machine.technology",
+            "value": "simulator",
+            "op": "diff"
+        },
+        {
+            "target": "total_waiting_time",
+            "value": 1000000000,
+            "op": "lt"
+        },
+        {
+            "target": "machine.max_depth",
+            "default": false
+        }
+    ],
+    "metrics": [
+        {
+            "key": "used_machines",
+            "value": {
+                "count": [
+                    "M"
+                ],
+                "such_as":[
+                    "compatible(M)",
+                    "dispatch(M,S)",
+                    "shots(S)",
+                    "S > 0"
+                ]
+            }
+        },
+        {
+            "key": "machine.total_time",
+            "value": {
+                "+":[
+                    "machine.expected_waiting_time",
+                    "machine.expected_execution_time"
+                ]
+            }
+        },
+        {
+            "key": "total_waiting_time",
+            "value": {
+                "max": ["T"],
+                "such_as": ["total_time(M, T)", "compatible(M)", "dispatch(M,S)", "S > 0"]
+            }
+        },
+        {
+            "key": "tech_score",
+            "value": {
+                "sum": [
+                    "Score"
+                ],
+                "such_as":[
+                    "compatible(M)",
+                    "dispatch(M,S)",
+                    "shots(S)",
+                    "S > 0",
+                    "technology(M, Tech)",
+                    "tech_score(Tech, Score)"
+                ]
+            }
+        }
+    ],
+    "optimise": [
+        "total_cost",
+        "-used_machines",
+        "total_waiting_time"
+    ]
+}
